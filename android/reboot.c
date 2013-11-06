@@ -38,11 +38,11 @@ int reboot_main(int argc, char *argv[])
         fprintf(stderr, "%s: too many arguments\n", argv[0]);
         exit(EXIT_FAILURE);
     }
-
+#if defined(ANDROID_RB_FLAG_NO_SYNC) && defined(ANDROID_RB_FLAG_NO_REMOUNT_RO) 
     if(nosync)
         /* also set NO_REMOUNT_RO as remount ro includes an implicit sync */
         flags = ANDROID_RB_FLAG_NO_SYNC | ANDROID_RB_FLAG_NO_REMOUNT_RO;
-
+#endif
     if(poweroff)
         ret = android_reboot(ANDROID_RB_POWEROFF, flags, 0);
     else if(argc > optind)
